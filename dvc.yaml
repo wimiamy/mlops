@@ -1,0 +1,81 @@
+stages:
+  collect:
+    cmd: python -m src.collect
+    deps:
+      - src/collect.py
+      - src/config.py
+      - params.yaml
+      - datasets/financial-qa-10K/data/train-00000-of-00001.parquet
+    params:
+      - collect.version
+      - collect.n_rows
+      - collect.sources
+      - paths.raw
+    outs:
+      - data/raw.jsonl
+    metrics:
+      - metrics/collect.json:
+          cache: false
+
+  clean:
+    cmd: python -m src.clean
+    deps:
+      - src/clean.py
+      - src/dedup.py
+      - src/pii.py
+      - src/schema.py
+      - src/textnorm.py
+      - src/config.py
+      - params.yaml
+      - data/raw.jsonl
+    params:
+      - clean
+      - paths.clean
+    outs:
+      - data/clean.jsonl
+    metrics:
+      - metrics/clean.json:
+          cache: false
+
+  diversity:
+    cmd: python -m src.diversity
+    deps:
+      - data/clean.jsonl
+      - src/diversity.py
+      - src/stats.py
+      - src/schema.py
+      - src/textnorm.py
+      - src/config.py
+      - params.yaml
+    params:
+      - diversity
+      - split.group_key
+      - paths.clean
+    metrics:
+      - metrics/diversity.json:
+          cache: false
+
+  split:
+    cmd: python -m src.split
+    deps:
+      - data/clean.jsonl
+      - src/split.py
+      - src/contamination.py
+      - src/dedup.py
+      - src/schema.py
+      - src/textnorm.py
+      - src/config.py
+      - params.yaml
+    params:
+      - split
+      - contamination
+      - paths.train
+      - paths.val
+      - paths.test
+    outs:
+      - data/train.jsonl
+      - data/val.jsonl
+      - data/test.jsonl
+    metrics:
+      - metrics/split.json:
+          cache: false
