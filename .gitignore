@@ -1,6 +1,27 @@
+# Python
 __pycache__/
+*.py[cod]
+*.so
+.Python
 .venv/
-dvc_remote/
+
+# Данные (сами файлы не коммитим)
+data/*.jsonl
+!data/.gitignore
+
+# DVC кэш (не коммитим)
+.dvc/cache/
+
+# Но конфиг DVC коммитим!
+!.dvc/config
+!.dvc/.gitignore
+
+# Метрики (не коммитим)
+metrics/*.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
 data/
-data/
-*.dvc
+*.DS_Store
