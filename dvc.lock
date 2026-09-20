@@ -9,7 +9,7 @@ stages:
       size: 1588233
     - path: params.yaml
       hash: md5
-      md5: f3e6d1a3cf8e8476d394ebfc59af783e
+      md5: a7744648d28b503cd5a81e2d19ac1cf0
       size: 5504
     - path: src/collect.py
       hash: md5
@@ -27,7 +27,7 @@ stages:
           - datasets/financial-qa-10K/data/train-00000-of-00001.parquet
           v2:
           - datasets/financial-qa-10K/data/train-00000-of-00001.parquet
-        collect.version: v2
+        collect.version: v1
         paths.raw: data/raw.jsonl
     outs:
     - path: data/raw.jsonl
@@ -36,7 +36,7 @@ stages:
       size: 3297887
     - path: metrics/collect.json
       hash: md5
-      md5: ad9fd0c8844b7911baafc18f00f24bdf
+      md5: 63d5a8ae885e3ebdd046e70253d3225a
       size: 228
   clean:
     cmd: python -m src.clean
